@@ -2,7 +2,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class Pong extends JFrame {
-    
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new Pong();
@@ -18,3 +18,4 @@ public class Pong extends JFrame {
         setVisible(true);
     }
 }
+
