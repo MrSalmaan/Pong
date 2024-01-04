@@ -1,20 +1,20 @@
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 public class Pong extends JFrame {
-    // Define final static variables
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 600;
-    private static final String TITLE = "Pong";
-
-    public Pong() {
-        setTitle(TITLE);
-        setSize(WIDTH, HEIGHT);
-        setResizable(false);
-        setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new Pong();
+        });
     }
 
-    public static void main(String[] args) {
-        new Pong();
+    public Pong() {
+        setTitle("Pong");
+        setSize(800, 600);
+        setResizable(false);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        add(new PongPanel()); // Add the PongPanel to the frame
+        setVisible(true);
     }
 }
