@@ -9,6 +9,8 @@ public class Sprite {
     private int width;
     private int height;
     private Color color;
+    private int initialXPosition;
+    private int initialYPosition;
 
     public Sprite(int xPosition, int yPosition, int xVelocity, int yVelocity, int width, int height, Color color) {
         this.xPosition = xPosition;
@@ -18,6 +20,8 @@ public class Sprite {
         this.width = width;
         this.height = height;
         this.color = color;
+        this.initialXPosition = xPosition;
+        this.initialYPosition = yPosition;
     }
 
     public int getXPosition() {
@@ -78,6 +82,16 @@ public class Sprite {
 
     public void setColor(Color newColor) {
         color = newColor;
+    }
+
+    public void setInitialPosition(int initialX, int initialY) {
+        initialXPosition = initialX;
+        initialYPosition = initialY;
+    }
+
+    public void resetToInitialPosition() {
+        xPosition = initialXPosition;
+        yPosition = initialYPosition;
     }
 }
 
