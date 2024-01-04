@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 public class Sprite {
 
     private int xPosition;
@@ -6,14 +8,16 @@ public class Sprite {
     private int yVelocity;
     private int width;
     private int height;
+    private Color color;
 
-    public Sprite(int xPosition, int yPosition, int xVelocity, int yVelocity, int width, int height) {
+    public Sprite(int xPosition, int yPosition, int xVelocity, int yVelocity, int width, int height, Color color) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.xVelocity = xVelocity;
         this.yVelocity = yVelocity;
         this.width = width;
         this.height = height;
+        this.color = color;
     }
 
     // Getter and setter for xPosition
@@ -68,5 +72,14 @@ public class Sprite {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    // Getter and setter for color
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }
