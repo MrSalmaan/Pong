@@ -1,57 +1,91 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class PongPanel extends JPanel implements ActionListener {
+public class PongPanel extends JPanel {
 
-    private final static Color BACKGROUND_COLOUR = Color.BLACK;
-    private final static int TIMER_DELAY = 5;
+    private static final Color BACKGROUND_COLOR = Color.BLACK;
+    private static final int TIMER_DELAY = 5;
 
-    private double ballX = 50;  // X-coordinate of the ball
-    private double ballY = 50;  // Y-coordinate of the ball
-    private double ballSpeedX = 2;  // Speed of the ball in the X direction
-    private double ballSpeedY = 2;  // Speed of the ball in the Y direction
+    private Ball ball; // Ball object for the game
 
     public PongPanel() {
-        setBackground(BACKGROUND_COLOUR);
-        Timer timer = new Timer(TIMER_DELAY, this);
+        setBackground(BACKGROUND_COLOR);
+        ball = new Ball(50, 50, 20, 2, 2); // Initial ball parameters
+        Timer timer = new Timer(TIMER_DELAY, new TimerListener());
         timer.start();
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        paintDottedLine(g); // Draw the dotted line
         Graphics2D g2d = (Graphics2D) g;
 
         // Draw the ball
-        Ellipse2D.Double ball = new Ellipse2D.Double(ballX, ballY, 20, 20);
-        g2d.setColor(Color.WHITE);
-        g2d.fill(ball);
+        ball.draw(g2d);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        update();
-        repaint();
+    private void paintDottedLine(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+        g2d.setStroke(dashed);
+        g2d.setPaint(Color.WHITE);
+        g2d.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight());
+        g2d.dispose();
+    }
+
+    private class TimerListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            update();
+            repaint();
+        }
     }
 
     private void update() {
-        // Update ball position based on speed
-        ballX += ballSpeedX;
-        ballY += ballSpeedY;
+        ball.move(getWidth(), getHeight()); // Update ball position
+    }
 
-        // Reverse direction if ball hits the border
-        if (ballX < 0 || ballX > getWidth() - 20) {
-            ballSpeedX = -ballSpeedX;
+    private static class Ball {
+        private double x, y, diameter;
+        private double speedX, speedY;
+
+        public Ball(double x, double y, double diameter, double speedX, double speedY) {
+            this.x = x;
+            this.y = y;
+            this.diameter = diameter;
+            this.speedX = speedX;
+            this.speedY = speedY;
         }
-        if (ballY < 0 || ballY > getHeight() - 20) {
-            ballSpeedY = -ballSpeedY;
+
+        public void move(int panelWidth, int panelHeight) {
+            // Update ball position based on speed
+            x += speedX;
+            y += speedY;
+
+            // Bounce off the walls
+            if (x < 0 || x > panelWidth - diameter) {
+                speedX = -speedX;
+            }
+            if (y < 0 || y > panelHeight - diameter) {
+                speedY = -speedY;
+            }
+        }
+
+        public void draw(Graphics2D g2d) {
+            // Draw the ball
+            Ellipse2D.Double ball = new Ellipse2D.Double(x, y, diameter, diameter);
+            g2d.setColor(Color.WHITE);
+            g2d.fill(ball);
         }
     }
 }
