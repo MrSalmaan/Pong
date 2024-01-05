@@ -25,7 +25,11 @@ public class Sprite {
         this.initialYPosition = yPosition;
     }
 
-    public int getXPosition() {
+    public Sprite(Color paddleColor, int paddleWidth, int paddleHeight, Player player) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getXPosition() {
         return xPosition;
     }
 
